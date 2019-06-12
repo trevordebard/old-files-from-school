@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Sign Up for WIOC</title>
+    <style>
+      #wiocNavbarLogo {
+        positon:relative;
+        top:2px;
+      }
+      .navbar-brand>img{
+        margin-top:-23px;
+        height:60px;
+        width:auto;
+      }
+
+      /*****Sign Up*****/
+      .signUpContainer-grid{
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap:60px;
+      }
+      .signUpText{
+        align-items:start;
+        height: 50px; /*Height of text boxes*/
+        font-size: 16px; /*Font size of placeholder text and text typed into box*/
+        width: 80%; /*Takes up all space on modal while keeping padding*/
+        background-color: white; /*Background color of the text boxes*/
+        padding: 0 10px; /*How far placeholder and actual typed text are away from the sides from the textbox, also affects where the text starts*/
+        border: none; /*Border of text box*/
+        border-bottom:1px solid #247BA0; /*Gives us only the bottom border*/
+        -webkit-border-radius:0; /*IOS likes to give random border radius so this fixes that problem*/
+        border-radius:0; /*Explicitly setting border radius to 0, see above line*/
+        display:inline-block;
+      }
+      #signUpSubmit {
+        border-radius: 4px; /*Rounds button edges*/
+        color: white; /*Text of submit*/
+        background-color: #247BA0; /*Background color of button*/
+        padding: 12px 0px; /*Affects the height of the button*/
+        font-size: 19px; /*Font size of the text on the button*/
+        border:none; /*Need this or as some dumb auto border, can do this with border:0 not sure which is better practice*/
+        width: 350px; /*Takes up all space on modal while keeping padding*/
+        margin-top:85px; /*How far the submit button is away from the thing above it*/
+  		}
+      #signUpSubmit:hover {
+  		  background-color: #0A678F; /*Color of background when cursor is hovering on submit button*/
+  		}
+      .signUpText:hover {
+  		  border-bottom: 2px solid #0A678F; /*Adds a border when hovering over username and password text boxes*/
+  		}
+      .signupContent-container{
+        margin-top:40px;
+        margin-left:100px;
+      }
+      #header{
+        margin-bottom: 50px;/*How far the things below the header are from the header*/
+        font-family: helvetica, sans-serif; /*font*/
+      }
+      #header h1{
+        font-size: 35px; /*Changes the size of the header*/
+        color:#247BA0; /*Color of the header*/
+      }
+
+      /*When the screen gets to 600px these styles are activated*/
+      @media (max-width:600px){
+        .signUpContainer-grid{
+          display: grid;
+          grid-template-columns: 100%;
+          grid-gap:40px;
+        }
+        .signupContent-container{
+          margin-left: 65px;
+          margin-top: 10px;
+        }
+        #signUpSubmit{
+          width:70%;
+          margin-top: 40px;
+          margin-bottom: 10px;
+        }
+        #header{
+          width:90%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default">
+      <a class="navbar-brand" href="index.html">
+        <img src="pics/wiocLogo.png" id="wiocNavbarLogo" alt="">
+      </a>
+  	</nav>
+    <div class="signupContent-container">
+      <div id="header">
+        <h1>Create a WIOC Account</h1>
+      </div>
+      <form class="signUpContainer-grid" action="/WIOC/SignUp" method="GET">
+        <input type="email" name="email" id="signUpEmail" class="signUpText" placeholder="Email" required/>
+        <input type="text" name="username" id="signUpUser" class="signUpText" placeholder="Username" required/>
+        <input type="password" name="password" id="signUpPass" class="signUpText" placeholder="Password" required/>
+        <input type="password" name="confirmpassword" id="confirmPass" class="signUpText" placeholder="Confirm Password" required/>
+      <button type="submit" name="signUpSubmitBtn" id="signUpSubmit" class="signUp center-block">Sign up</button>
+      </form>
+      </div>
+      
+
+    <script>
+      var password = document.getElementById("signUpPass")
+      var confirm_password = document.getElementById("confirmPass");
+
+      function validatePassword(){
+        if(password.value != confirm_password.value) {
+          confirm_password.setCustomValidity("Passwords Don't Match");
+        } else {
+          confirm_password.setCustomValidity('');
+        }
+      }
+      password.onchange = validatePassword;
+      confirm_password.onkeyup = validatePassword;
+
+    </script>
+  </body>
+</html>

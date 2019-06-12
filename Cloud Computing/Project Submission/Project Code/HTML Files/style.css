@@ -1,0 +1,143 @@
+body {
+  width: 100%;
+}
+.horizontal-center {
+  margin-left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.brBtn {
+  margin-top: 1%;
+}
+
+/*****LOGIN MODAL******/
+.loginmodal-container {
+  padding: 40px; /*How far away the contents are from the border of the modal*/
+  width:100%;
+  max-width:500px; /*Width of modal*/
+  background-color: white; /*Background color of modal*/
+  margin: 0 auto; /*Since we specified the width, this will make everything sit in the center of the modal*/
+  border-radius: 4px; /*Rounded edges for border*/
+  overflow: hidden; /*Used to see content that overflows aka used if a lot of content doesnt fit on modal, hidden has no scroll bars*/
+  font-family: helvetica, sans-serif;
+}
+.loginmodal-container h1 { /*Controls the header of the modal "Log in to your WIOC account"*/
+  text-align: center; /*Centers the header*/
+  font-size: 25px; /*Changes the size of the header*/
+  font-family: helvetica, sans-serif;
+  color:#247BA0; /*Color of the header*/
+}
+
+#loginSubmitBtn {
+  border-radius: 4px; /*Rounds button edges*/
+  color: white; /*Text of submit*/
+  background-color: #247BA0; /*Background color of button*/
+  padding: 10px 0px; /*Affects the height of the button*/
+  font-size: 19px; /*Font size of the text on the button*/
+  border:none; /*Need this or as some dumb auto border, can do this with border:0 not sure which is better practice*/
+  width: 100%; /*Takes up all space on modal while keeping padding*/
+  display: block;
+  margin-bottom: 10px; /*How far the button is away from the thing below it*/
+  position: relative;
+  margin-top:10px; /*How far the submit button is away from the thing above it*/
+}
+
+#loginSubmitBtn:hover {
+  background-color: #0A678F; /*Color of background when cursor is hovering on submit button*/
+}
+
+.loginText { /*Controls text and text box for username and password*/
+  height: 50px; /*Height of text boxes*/
+  font-size: 16px; /*Font size of placeholder text and text typed into box*/
+  width: 100%; /*Takes up all space on modal while keeping padding*/
+  margin-bottom: 10px; /*How far away each text box is away from the thing below it*/
+  background-color: white; /*Background color of the text boxes*/
+  padding: 0 10px; /*How far placeholder and actual typed text are away from the sides from the textbox, also affects where the text starts*/
+  border: none; /*Border of text box*/
+  border-bottom:1px solid #247BA0; /*Gives us only the bottom border*/
+  -webkit-border-radius:0;
+  border-radius:0;
+}
+
+.loginText:hover {
+  border-bottom: 2px solid #0A678F; /*Adds a border when hovering over username and password text boxes*/
+}
+
+.loginmodal-container a{ /*Forgot Password font, sign up font and anything else that uses the tag a in the login modal*/
+  color: #247BA0; /*Color of "Change Password"*/
+  font-size:13px; /*Size of "Change Password"*/
+}
+#forgotPasswordText{ /*Paragraph tag that is used to center and move the forgot password text slightly down*/
+  text-align: center;
+  margin-top:20px;
+}
+#loginModalText{ /*Text underneath the hr that allowss the user to sign up from the login modal*/
+  text-align: center;
+}
+#loginModalHR{
+  border:0.3px solid #247BA0; /*Changes the horizontal rule's thickness and color*/
+}
+
+
+
+/*****Underline Animation****/
+.underlineAnimate{
+  display: inline;
+  position: relative;
+  overflow: hidden;
+  top: 6px;
+}
+.underlineAnimate:after {
+  content: "";
+  background:#247BA0;
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: 5px;
+  height: 4px;
+  transition-property: top bottom;
+  transition-duration: 0.4s;
+  transition-timing-function: ease-out;
+}
+.underlineAnimate:hover:after,
+.underlineAnimate:focus:after,
+.underlineAnimate:active:after {
+  right: 0;
+}
+.nav li {
+  display: inline;
+}
+
+.modal-open {
+  position: fixed;
+}
+
+/******Navbar*******/
+.navbarText {
+  font-size: 15px;
+  font-weight: bold;
+  padding: 15px 10px;
+  font-family: helvetica, sans-serif;
+  margin-left: 1px;
+  position:relative;
+  top:0;
+}
+.nav.navbar-nav.navbar-right li a {
+  color: #464646;
+}
+.nav.navbar-nav.navbar-right li a:hover {
+  color: #000000;
+}
+#wiocNavbarLogo {
+  position: relative;
+  top:2px;
+}
+.navbar-brand>img{
+  margin-top:-23px;
+  height:60px;
+  width:auto;
+}
+.wrap-text {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}

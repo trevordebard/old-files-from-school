@@ -1,0 +1,83 @@
+#!flask/bin/python
+import json
+import happybase
+import datetime
+import pandas as pd
+from flask_cors import CORS, cross_origin
+from flask import Flask, request
+from collections import OrderedDict
+app = Flask(__name__)
+
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
+
+@app.route('/')
+def index():
+    return "Hello, World!"
+
+@app.route('/tables')
+def tables():
+	connection = happybase.Connection('192.168.1.6',port=9090,transport='framed',protocol='compact')
+	tables = [str(i.decode('utf8')) for i in connection.tables()]
+	connection.close()
+	return json.dumps({'tables': tables})		
+
+# Required request params:
+# @param table (the name of the table)
+# ------Optional----
+# @param start_time (time you want to begin the scan in the format MM/DD/YY:HH
+# @param limit (the max number of results)
+# @param end_time (the time you wnat to stop the scan)
+@app.route('/scan')
+@cross_origin()
+def scan():
+	ret = {}
+	table_name = request.args.get('table', default=None)
+	start_time = request.args.get('start_time', default=None)
+	limit = request.args.get('limit', default=400)
+	end_time  = request.args.get('end_time', default=None)
+
+	if start_time is not None:
+		d = datetime.datetime.strptime(start_time, "%m/%d/%Y:%H")
+		start_time = d.strftime('%s').encode()
+	if end_time is not None:
+		d = datetime.datetime.strptime(end_time, "%m/%d/%Y:%H")
+		end_time = d.strftime('%s').encode()
+	connection = happybase.Connection('192.168.1.6',port=9090,transport='framed',protocol='compact')
+	table = connection.table(table_name)
+	filterString = "QualifierFilter (=, 'binary:time') OR QualifierFilter (=, 'binary:sentiment')"
+	for key, data in table.scan(row_start=start_time, row_stop=end_time, limit=int(limit), filter=filterString):
+		tmp = key.decode('utf8')
+		ret[tmp] = {key.decode('utf8'): val.decode('utf8') for key, val in data.items() }
+
+	connection.close()
+
+	df = pd.DataFrame(ret).transpose()
+	df.index = [datetime.datetime.fromtimestamp(float(i.split('--')[0])).strfti
+me("%Y-%m-%d %H:%M:%S") for i in ret.keys()]
+	df = df.drop(['comments:time'], axis=1)
+	df['comments:sentiment'] = df['comments:sentiment'].apply(pd.to_numeric)
+	df = df[~df.index.duplicated()]	# drop duplicate index
+	times = pd.to_datetime(df.index)
+	groupedDf = df.groupby([times.month, times.day, times.hour]).mean()
+	print(groupedDf.tail())
+	""" df['rolling_mean'] = df['comments:sentiment'].rolling(window=50).mean()
+	df = df.drop(['comments:time'], axis=1)
+	print(df.tail) """
+
+	new = to_xy_pairs(groupedDf['comments:sentiment'].to_dict(into=OrderedDict))
+	print("after")
+	print(new)
+	return json.dumps(new)
+
+
+def to_xy_pairs(data):
+	ret = []
+	for key, value in data.items():
+		ret.append({"x": key, "y": value})
+	return ret
+
+
+if __name__ == '__main__':
+    app.run(debug=True)

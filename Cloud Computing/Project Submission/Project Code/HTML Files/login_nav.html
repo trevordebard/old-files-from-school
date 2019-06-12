@@ -1,0 +1,65 @@
+<nav class="navbar navbar-default">
+    <a class="navbar-brand" href="index.html">
+        <img src="pics/wiocLogo.png" id="wiocNavbarLogo" alt="">
+    </a>
+  <div class="navbar-header">
+          <button type="button" class="navbar-toggle" id="collapsedCityNavbar" data-toggle="collapse" data-target="#cityNavbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" id="cityNavbar">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="signup.html" id="signUpBtn" class="underlineAnimate navbarText">Sign Up</a></li>
+            <li id="logged-in-btn" class="dropdown"></li>
+            <li id="login-wrapper"><a href="#" id="loginBtn" class="underlineAnimate navbarText" data-toggle="modal" data-target="#login-modal">Log In</a></li>
+          </ul>
+        </div>
+      </nav>
+      <!--LOGIN MODAL-->
+      <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="loginmodal-container">
+                <img src="images/wiocLogo.png" style="width: 20px; height: 15px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <!--closes the modal when x is pressed-->
+                <span aria-hidden="true">&times;</span>
+                </button>
+                <h1>Log in to Your Account</h1><br>
+          
+                <!--The form the user needs to fill in order to log in. This includes a username, password, and a click
+                of the submit button. Each field must be filled in for the submit button to work-->
+                <form action="/WIOC/Login" method="POST">
+                  <input type="text" name="username" class="loginText" placeholder="Username" required>
+                  <input type="password" name="password" class="loginText" placeholder="Password" required>
+                  <input type="submit" name="loginSubmitBtn" id="loginSubmitBtn" class="login" value="Log In">
+                </form>
+                <hr id="loginModalHR">
+                <div>
+                  <p id="loginModalText">Don't have an account? <a href="signup.html">Sign Up</a></p>
+                </div>
+  
+              </div>
+            </div>
+          </div>
+          <!--END LOGIN MODAL-->
+      <script>
+          $.get("/WIOC/GetUserSession", { type: "getSessionUsername" } )
+	      .done(function( data ) {
+	    	  if(data !== 'null') {
+	    		  $('#signUpBtn').hide();
+	    		  $('#loginBtn').hide();
+	    		  $('#logged-in-btn').html('<a href="#" id="drop1" data-toggle="dropdown" class="dropdown-toggle underlineAnimate navbarText" role="button">'+data+'<b class="caret"></b></a><ul role="menu" class="dropdown-menu" aria-labelledby="drop1"><li role="presentation"><a id="logout" role="menuitem">Log Out</a></li></ul>')
+	    	  }
+          });
+          $(document).on('click', '#logout', function() {
+    	  console.log('logout');
+    	  $.get("/WIOC/GetUserSession", { type: "logout" } )
+    	  .done(function(data) {
+    		  if(data == 'success') {
+    			  location.reload();
+    		  }
+    	  });
+   		});
+      </script>

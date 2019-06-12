@@ -1,0 +1,13 @@
+How To Use Where in Our City (WIOC)
+
+1. Visit http://34.217.145.19/
+2. Click "sign up" in the top right hand side of the page to create an account.
+3. Click "login" after you receive a success message that your sign up was successful.
+4. After you login, click "choose a location" and select baton rouge.
+5. cityhome.html will load, and you will be able to see all of the questions that have been asked
+6. To view a question and its comments click on it.
+7. To ask a question, click the "Ask a Question Button", fill out the form, and submit it.
+    - note, you will not be able to ask a question if you are not logged in
+8. To comment on a question, first select that question, and if you are logged in, you can fill out the comment text area and then click "post comment"
+    - If you are not logged in, that button will be disabled, but you can still read other user's comments
+9. On the cityhome page, there is pagination at the bottom, so you can look through several pages of questions if you want to see a history of questions asked

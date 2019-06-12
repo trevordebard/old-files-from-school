@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+    #btn-choose-location {
+        border-color: #247BA0; /*Sets the color of an elements four borders.*/
+        max-width:600px; /*Esablishes the max-width of the choose location button.*/
+        width:100%; /*Sets the default width to 100%.*/
+        background-color: #247BA0; /*Set the background color for the button.*/
+        font-family: helvetica, sans-serif; /*Defines the default fonts for the button.*/
+    }
+    #btn-choose-location:hover {
+      background-color: #0A678F; /*Alters the color of the choose location button when the user hovers over it.*/
+    }
+    #cont-search-location{ /*Creates a container for selection a location.*/
+      width:75%; /*Sets the default width to 75% of the container.*/
+      max-width:600px;  /*Establishes the max-width of the container as 600 pixels.*/
+      margin-left:50%; /*Sets the left-margin of the search location container.*/
+      transform: translateX(-50%); /*Shifts the container left by 50%. This in combination with margin-left 50% centers the container.*/
+    }
+    /*****Underline Animation****/
+    .nav a {
+      color: black;
+      font-size: 15px;
+      font-weight: bold;
+      padding: 15px 10px;
+      font-family: helvetica, sans-serif;
+      margin-left: 1px;
+      text-decoration: none;
+    }
+
+    /*************************/
+    .space{
+      margin-top: 460px; /*Adds a margin of 460px to the top of the Our Mission information.*/
+    }
+    .textCentered{
+      text-align:center; /*Centers the Our Mission text header.*/
+    }
+    #message-text {
+      resize: vertical;
+    }
+    .navbar-brand {
+      display: none;
+    }
+    .navbarText {
+      font-size: 15px; /*Sets the navbar font size to 15 pixels.*/
+      font-weight: bold; /*Makes the navbar text bold.*/
+      font-family: helvetica, sans-serif; /*Defines the font that the navbar text can choose from.*/
+      postion:relative; /*The navbar's positioning is relative to its normal position.*/
+      top:-8px; /*Sets the top edge of the navbar as 8 pixels higher than default.*/
+    }
+    .nav.navbar-nav.navbar-right li a {
+      color: #464646;
+      margin-left:0;
+    }
+    .nav.navbar-nav.navbar-right li a:hover {
+      color: #000000;
+    }
+    .navbar-default{
+      background-color: white; /*The navbar has a while background color.*/
+      border:none; /*The navbar does not have visible borders.*/
+    }
+    </style>
+  </head>
+  <body>
+  	<div id="not-logged-in" class="alert alert-warning hide">
+		<strong>Warning:</strong> You must login before doing that!
+	</div>
+  	<div id="registration-success" class="alert alert-success hide">
+		<strong>Success!</strong> You may now login to your account.
+	</div>
+	<div id="login-error" class="alert alert-danger hide">
+		<strong>Error</strong> There was a problem signing into your account
+  </div>
+  <div id="general-error" class="alert alert-danger hide">
+		<strong>Error</strong> There was a problem processing your request
+	</div>
+    <div id="login"></div>
+      
+      
+    <!--Places the logo into the center of the page and adds styling-->
+    <div id="logo-header" align="center">
+      <img src="pics/wiocLogo.png" style="width: 200px; height: 150px; margin-top: 5%;">
+    </div>
+
+    <!--Puts the 'Choose a Location' button under the logo and adds styling-->
+    <div id="cont-search-location">
+      <button type="button" id="btn-choose-location" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+        Choose a Location
+      </button>
+    </div>
+
+    <!--The modal for choosing a city -->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body"> <!--Selecting the Baton Rouge button opens up the corresponding cityhome.html-->
+            <a href="cityhome.html"><button class="btn btn-primary horizontal-center brBtn">Baton Rouge</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+    $(document).ready(function(){
+      $("#login").load("login_nav.html");
+     
+      var getUrlParameter = function getUrlParameter(sParam) {
+    	    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+    	        sURLVariables = sPageURL.split('&'),
+    	        sParameterName,
+    	        i;
+
+    	    for (i = 0; i < sURLVariables.length; i++) {
+    	        sParameterName = sURLVariables[i].split('=');
+
+    	        if (sParameterName[0] === sParam) {
+    	            return sParameterName[1] === undefined ? true : sParameterName[1];
+    	        }
+    	    }
+    	};
+      if(getUrlParameter('registered') == 'true') {
+        $('#registration-success').toggleClass('hide');
+    	  setTimeout(function(){
+        	  $('#registration-success').toggleClass('hide');
+    		}, 6000);
+      };
+      if(getUrlParameter('error') == 'true') {
+        $('#general-error').toggleClass('hide');
+    	  setTimeout(function(){
+        	  $('#general-error').toggleClass('hide');
+    		}, 6000);
+      };
+      if(getUrlParameter('loginError') == 'true') {
+    	  $('#login-error').toggleClass('hide');
+    	  setTimeout(function(){
+        	  $('#login-error').toggleClass('hide');
+    		}, 6000);
+      };
+      if(getUrlParameter('loggedIn') == 'false') {
+    	  $('#not-logged-in').toggleClass('hide');
+    	  setTimeout(function(){
+        	  $('#not-logged-in').toggleClass('hide');
+    		}, 6000);
+      };
+      
+      
+    });
+    </script>
+  </body>
+</html>

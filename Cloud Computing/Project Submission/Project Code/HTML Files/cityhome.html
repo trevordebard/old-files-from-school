@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.js"><</script>
+  <style>
+    /******Navbar Styling*******/
+    .navbarText {
+      font-size: 15px;
+      font-weight: bold;
+      padding: 15px 10px;
+      font-family: helvetica, sans-serif;
+      margin-left: 1px;
+      position:relative;
+      top:0;
+    }
+    .nav.navbar-nav.navbar-right li a {
+      color: #464646;
+    }
+    .nav.navbar-nav.navbar-right li a:hover {
+      color: #000000;
+    }
+    .question-lgi:hover {
+      border: 2px solid #247ba0;
+    }
+    .question-lgi .main-a {
+      color: #464646;
+      text-decoration: none;
+    }
+    /* container for comment button */
+    .question-btn-container {
+      margin-left: 1.5%;
+      margin-bottom: 5px;
+    }
+    #wiocNavbarLogo{
+      position:relative;
+      top:2px;
+    }
+    .navbar-brand>img{
+      margin-top:-23px;
+      height:60px;
+      width:auto;
+    }
+    /*Puts the Baton Rouge Banner underneath the navbar*/
+    #BRBanner {
+      position: relative;
+      top:-20px;
+      width: 100%;
+    }
+
+    /*Style for forming the boxes that house the the questions*/
+    .list-group-item {
+      margin: 3px;
+      margin-top: 0px;
+      border-radius: 5px;
+    }
+
+    #questions-container{
+      width:64%;
+      max-width: 1000px;
+      float:left;
+      margin: 2%;
+      border-radius:5px;
+    }
+    #pag{
+      width:64%;
+      max-width: 1000px;
+      float:left;
+      margin: 2%;
+      border-radius:5px;
+    }
+
+    #btn-cat-container{
+      display:block;
+      margin:0 auto;
+      width:30%;
+      float:right;
+      margin-top:30px;
+      text-align: center;
+    }
+	/* Styling for ask a question button */
+    #askQuestionBtn{
+      width:92%;
+      max-width:300px;
+      background-color: #247BA0;
+      color:white;
+      font-size: 18px;
+    }
+	/* Change color of button on hover */
+    #askQuestionBtn:hover{
+      background-color: #0A678F;
+      color:white;
+    }
+	/* Make sure width does not exceed 500px for select */
+    .bootstrap-select {
+      max-width: 500px;
+    }
+    .bootstrap-select .btn {
+      color:black;
+      font-size: 18px;
+      appearance: none;
+
+    }
+
+
+  </style>
+</head>
+<body style="width: 100%">
+  <div id="login"></div>
+  <!--This div houses the Baton Rouge banner-->
+  <div>
+    <img src="pics/BRBanner-min.png" id="BRBanner">
+  </div>
+
+  <div>
+    <div align="center" style="margin: 0 auto; width: 25%; text-align: center; margin-top:0px;">
+      <a style="cursor: pointer;" data-toggle="modal" data-target="#myModal">Change City</a>
+    </div>
+  </div>
+
+  <!--Ask a QUESTION MODAL-->
+  <div class="modal fade" id="question-modal" tabindex="-1" role="dialog" aria-labelledby="askAQuestionTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <!--The button for closing out of the modal-->
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h2 class="modal-title" id="askAQuestionText">What would you like to ask?</h2>
+        <p class="modal-title" id="askAQuestionText">Ask about events, shops, attractions, or whatever you want to know!</p>
+      </div>
+      <div class="modal-body">
+
+      <!--This modal uses the included file to post the question into the database. The format
+      of this form is 2 text input fields and a dropdown menu-->
+      <form action="WIOC/AskQuestion" method="POST">
+        <div class="form-group">
+          <label for="question-question" class="form-control-label askAQuestionTitle">Question:</label>
+          <input type="text" class="form-control" id="question-question" name="question-question" required>
+          <br>
+          <label for="question-description" class="form-control-label askAQuestionTitle">Description:</label>
+          <textarea class="form-control " id="question-description" name="question-description" required></textarea>
+          <br>
+          <label for="question-category" class="form-control-label askAQuestionTitle">Category:</label>
+
+          <!--The different options that are selectable from the dropdown menu-->
+          <select name="question-category" id="question-category" class="selectpicker" data-live-search="true">
+            <option>Volunteer</option>
+            <option>Discussion</option>
+            <option>Food and Dining</option>
+            <option>Service providers</option>
+            <option>Leisure</option>
+            <option>Nightlife</option>
+            <option>Date night </option>
+            <option>Shopping</option>
+            <option>Events</option>
+            <option>Amusements and attractions</option>
+            <option>Hotels and lodging</option>
+            <option>Family</option>
+            <option>Pets</option>
+            <option>Museums and Historical Sites</option>
+            <option>Places of worship</option>
+          </select>
+        </div>
+      
+      <!--This div contains the 'Cancel' and 'Post Question' buttons-->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="askAQuestionCancelBtn" data-dismiss="modal">Cancel</button>
+        <input type="submit" class="btn btn-primary" name="askAQuestionSubmitBtn" value="Ask The Locals">
+      </div>
+      </form>
+      </div>
+      <!--END QUESTION MODAL-->
+    </div>
+  </div>
+</div>
+
+  <!--Change city modal that displays a button with the ctiy, Baton Rouge-->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+       <div class="modal-content">
+         <div class="modal-body">
+           <a href="cityhome.html"><button class="btn btn-primary horizontal-center brBtn">Baton Rouge</button></a>
+         </div>
+       </div>
+     </div>
+  </div>
+  <!--This container holds the categories filter and relating html elements-->
+  <div id="btn-cat-container">
+    <button align="center" id="askQuestionBtn" data-toggle="modal"  class="btn">Ask A Question</button>    
+  </div>
+
+  <div>
+    <!--This div house all of the list group items holding the questions. The includes actually retieves the questions from
+    the database and makes a list group item programmatically to populate the cityhome page with questions. The div also
+    contains stylings for the questions-->
+
+      <div id="questions-container" class="list-group">
+      </div>
+      <div id="pag"></div>
+    </div>
+  <script>
+    $("#login").load("login_nav.html");
+  $('#pag').twbsPagination({
+	  totalPages: 5,
+	  visiblePages: 5,
+	  onPageClick: function (event, page) {
+	  $.get('/WIOC/RetrieveQuestions',{'page': page}, function(data) {
+		  if(data != "") {
+	    	  $(".list-group").prepend(data);
+		  }
+		  else {
+			  $(".list-group").prepend("<p>There is not enough content on the site yet!</p>")
+		  }
+      });
+	  $('#questions-container').text('');
+	  }
+	});
+    /*Declares and initializes the start, questionsPerLoad, and reachedMax variables*/
+    var start = 0;
+    var questionsPerLoad = 5;
+    var reachedMax = false;
+    var category = "";
+
+    /*Allows us to make changes to the file using the fillpage function*/
+    $(document).ready(function() {
+	    jQuery.noConflict(); 
+        fillPage();
+        $('#askQuestionBtn').on('click', function(){
+        	console.log('Ask a question clicked');
+        	$.get("/WIOC/GetUserSession", { type: "getSessionUsername" } )
+	  	      .done(function( data ) {
+		  	    	  if(data !== 'null') {
+		  	    		$('#question-modal').modal('show');
+		  	    	  }
+		  	    	  else {
+		  	    		  window.location.href = 'index.html?loggedIn=false';
+		  	    	  }
+		  	      });
+        })
+    });
+
+    /*This function fills the page with questions retrieved from the database*/
+    function fillPage() {
+      /*If there aren't any more questions left in the databse then the function will just return*/
+      if (reachedMax)
+        return;
+      /*$.get('test', function(data) {
+          alert(data);
+      });*/
+      $.get('/WIOC/RetrieveQuestions', function(data) {
+    	  $(".list-group").prepend(data);
+      });
+    }
+  </script>
+</body>
+</html>
